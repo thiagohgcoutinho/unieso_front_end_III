@@ -12,7 +12,7 @@ const App = () => {
       <Exercicio1Subtracao num1={5} num2={2}/>
       <Exercicio1Multiplicacao num1={3} num2={6}/>
       <Exercicio1Divisao num1={15} num2={3}/>
-      <PrecisoEstudar nomeDaTecnologia={"Front_End"}/>
+      <PrecisoEstudar nomeDaTecnologia={"React"}/>
     </div>
   )
 }
