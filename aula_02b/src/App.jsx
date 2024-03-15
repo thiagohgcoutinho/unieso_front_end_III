@@ -2,6 +2,7 @@ import React from 'react'
 import RenderizandoComFuncoes from './components/RenderizandoComFuncoes'
 import TrabalhadoComImagens from './components/TrabalhadoComImagens'
 import HookContador from './components/HookContador'
+import HookMegaSena from './components/HookMegaSena'
 
 const App = () => {
   return (
@@ -9,6 +10,7 @@ const App = () => {
       <RenderizandoComFuncoes />
       <TrabalhadoComImagens />
       <HookContador />
+      <HookMegaSena />
     </div>
   )
 }
