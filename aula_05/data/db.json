@@ -1,0 +1,22 @@
+{
+    "alunos": [
+        {
+            "id": 1,
+            "nome": "Thiago Henrique",
+            "email": "thiagohgcoutinho@gmail.com",
+            "curso": "Sistemas para Internet"
+        },
+        {
+            "id": 2,
+            "nome": "Luiz Carlos",
+            "email": "luizcarlos@gmail.com",
+            "curso": "Direito"
+        },
+        {
+            "id": 3,
+            "nome": "Fellype Rocha",
+            "email": "fellyper@gmail.com",
+            "curso": "Administração"
+        }
+    ]
+}
