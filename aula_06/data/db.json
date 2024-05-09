@@ -1,0 +1,16 @@
+{
+    "noticias": [
+        {
+            "id": 1,
+            "titulo": "UNIESP sedia Etapa de Circuito Paraibano de Xadrez Rápido",
+            "subtitulo": "O UNIESP sediou novamente uma etapa do Circuito Paraibano de Xadrez Rápido neste domingo (14), na Biblioteca Padre Dourado. O evento, que celebra o terceiro ano da parceria da instituição com a Federação Paraibana de Xadrez (FPBX), reuniu 73 participantes, incluindo seis jogadores titulados como mestres nacionais.",
+            "texto": "Foram concedidas premiações aos três primeiros colocados, além da campeã feminina, dos melhores sub-18, sub-15 e sub-12, dos melhores acima de 50 e de 60 anos, e também condecorações por pontuação no ranking: sub 200, sub 1800 e sub 1600. O campeão absoluto foi o Mestre Nacional Arthur Olinto, que conquistou seis vitórias em sete rodadas."
+        },
+        {
+            "id": 2,
+            "titulo": "UNIESP é ponto de entrega de doações para o Rio Grande do Sul",
+            "subtitulo": "A ação é uma parceria com a Beats Run. Na sexta e no sábado, haverá arrecadação durante a entrega dos kits da corrida. Os organizadores pedem para que os participantes levem doações na ocasião.",
+            "texto": "O UNIESP será um dos pontos de recebimento de doações para as vítimas das enchentes no Rio Grande do Sul. Até esta sábado (11), os interessados poderão oferecer ajuda através dos seguintes itens: água mineral, material de higiene pessoal, colchões em bom estado, roupas, fraldas e outros semelhantes. A entrega deve ser feita na Central de Relacionamento, que fica no térreo do Bloco Central, das 8h às 21h até sexta e das 9h a 12h no sábado."
+        }
+    ]
+}
