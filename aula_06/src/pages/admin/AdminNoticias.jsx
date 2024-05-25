@@ -1,10 +1,9 @@
-import React from 'react'
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { Button, List, ListItem, ListItemText, Typography } from '@mui/material'
 
-const url = "http>//localhost:300/noticias"
+const url = "http://localhost:3000/noticias"
 
 const AdminNoticias = () => {
 
@@ -12,12 +11,12 @@ const AdminNoticias = () => {
 
     useEffect(() => {
         async function fetchData() {
-            try {
-                const res = await axios.get(url)
-                setNoticias(res.data)
-            } catch(error) {
-                console.error("Erro ao buscar as notícias:", error)
-            }
+          try {
+            const res = await axios.get(url)
+            setNoticias(res.data)
+          } catch (error) {
+            console.error("Erro ao buscar as notícias: ", error)
+          }
         }
         fetchData()
       }, [])
@@ -27,9 +26,10 @@ const AdminNoticias = () => {
             await axios.delete(`${url}/${id}`)
             setNoticias(noticias.filter(noticia => noticia.id !== id))
         } catch (error) {
-            console.error("Erro ao remover a notícia: ", )
+            console.error("Erro ao remover a notícia ", error)
         }
       }
+
 
 
   return (
