@@ -6,19 +6,20 @@ import Noticias from './pages/Noticias'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import VisualizarNoticia from './pages/VisualizarNoticia'
+import NoticiasAxios from './pages/NoticiasAxios'
 
 const App = () => {
   return (
     <>
       <BrowserRouter>
-      <img src='uniesp.jpg' width={50} height={50} />
+      <img src='uniesp_logo.png' width={100} height={100} />
       <Navbar />
       <br/><br/>
       <Routes>
         <Route path='/' element={<Inicial />} />
         <Route path='/a-faculdade' element={<Afaculdade />} />
         <Route path='/dpo-lgpd' element={<DpoLgpd />} />
-        <Route path='/noticias' element={<Noticias />} />
+        <Route path='/noticias' element={<NoticiasAxios />} />
         <Route path='/visualizar-noticia/:id' element={<VisualizarNoticia />} />
       </Routes>
       </BrowserRouter>
