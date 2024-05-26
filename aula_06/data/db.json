@@ -1,10 +1,10 @@
 {
   "noticias": [
     {
-      "id": "2",
       "titulo": "MBA em Marketing e Inovação realiza aula magna nesta sexta",
       "subtitulo": "O encontro terá como tema “O marketing e a inovação que o mercado realmente precisa”",
-      "texto": "O MBA em Marketing e Inovação, pós-graduação do UNIESP, irá realizar sua aula magna nesta sexta-feira (19), a partir das 19h na Sala de Leitura da Biblioteca, 1º andar do Bloco Central. O encontro terá como tema “O marketing e a inovação que o mercado realmente precisa” e terá como ministrantes os professores André Felisberto, Gareth Butcher, Luciana Rabay e Suelen Pinto. A participação é gratuita, não sendo necessária a inscrição."
+      "texto": "O MBA em Marketing e Inovação, pós-graduação do UNIESP, irá realizar sua aula magna nesta sexta-feira (19), a partir das 19h na Sala de Leitura da Biblioteca, 1º andar do Bloco Central. O encontro terá como tema “O marketing e a inovação que o mercado realmente precisa” e terá como ministrantes os professores André Felisberto, Gareth Butcher, Luciana Rabay e Suelen Pinto. A participação é gratuita, não sendo necessária a inscrição.",
+      "id": "2"
     },
     {
       "id": "3",
@@ -13,10 +13,10 @@
       "texto": "O MBA em Marketing e Inovação, pós-graduação do UNIESP, irá realizar sua aula magna nesta sexta-feira (19), a partir das 19h na Sala de Leitura da Biblioteca, 1º andar do Bloco Central. O encontro terá como tema “O marketing e a inovação que o mercado realmente precisa” e terá como ministrantes os professores André Felisberto, Gareth Butcher, Luciana Rabay e Suelen Pinto. A participação é gratuita, não sendo necessária a inscrição."
     },
     {
-      "id": "b37f",
-      "titulo": "Amanhã não tem aula",
+      "titulo": "Amanhã não tem aula, será?",
       "subtitulo": "Quem me dera",
-      "texto": "Será hein?"
+      "texto": "Será hein?",
+      "id": "b37f"
     }
   ]
 }
