@@ -1,12 +1,12 @@
 import React from 'react';
 
-function SelectProcess() {
+const SelectProcess = () => {
   return (
     <div>
-      <h2>Selecionar Processo</h2>
-      {/* Adicione o conteúdo da página aqui */}
+      <h1>Selecionar Processo</h1>
+      {/* Conteúdo da página */}
     </div>
   );
-}
+};
 
 export default SelectProcess;

@@ -3,10 +3,18 @@ import { AppBar, Toolbar, Typography, Button, Menu, MenuItem, Box } from '@mui/m
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 
+const formatCargo = (cargo) => {
+  return cargo.charAt(0) + cargo.slice(1).toLowerCase();
+};
+
 function Navbar() {
-  const { userType, logout } = useAuth();
+  const { user, logout } = useAuth();
   const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log('User:', user);
+  }, [user]);
 
   const handleLogout = () => {
     logout();
@@ -25,14 +33,14 @@ function Navbar() {
     <AppBar position="fixed">
       <Toolbar>
         <Typography variant="h6" style={{ flexGrow: 1 }}>
-          ProcessNet
+          ProcessNet {user && ` - ${user.name} - ${user.type.includes('Funcionário') ? `Funcionário (${formatCargo(user.cargo)})` : user.type}`}
         </Typography>
-        {userType === null ? (
+        {!user ? (
           <Box>
             <Button color="inherit" component={Link} to="/">Home</Button>
             <Button color="inherit" component={Link} to="/login">Login</Button>
           </Box>
-        ) : userType === 'usuario' ? (
+        ) : user.type === 'Usuário' ? (
           <Box>
             <Button color="inherit" onClick={handleMenuOpen}>Processo</Button>
             <Menu
@@ -46,7 +54,7 @@ function Navbar() {
             <Button color="inherit" component={Link} to="/user-dashboard/profile">Perfil</Button>
             <Button color="inherit" onClick={handleLogout}>Sair</Button>
           </Box>
-        ) : userType === 'VISTORIADOR' || userType === 'ANALISTA' ? (
+        ) : (user.cargo === 'VISTORIADOR' || user.cargo === 'ANALISTA') ? (
           <Box>
             <Button color="inherit" onClick={handleMenuOpen}>Processo</Button>
             <Menu
@@ -54,25 +62,25 @@ function Navbar() {
               open={Boolean(anchorEl)}
               onClose={handleMenuClose}
             >
-              <MenuItem component={Link} to="/select-process" onClick={handleMenuClose}>Selecionar Processo</MenuItem>
-              <MenuItem component={Link} to="/check-process" onClick={handleMenuClose}>Verificar Processo</MenuItem>
+              <MenuItem component={Link} to="/funcionario-dashboard/select-process" onClick={handleMenuClose}>Selecionar Processo</MenuItem>
+              <MenuItem component={Link} to="/funcionario-dashboard/check-process" onClick={handleMenuClose}>Verificar Processo</MenuItem>
             </Menu>
-            <Button color="inherit" component={Link} to="/profile">Perfil</Button>
+            <Button color="inherit" component={Link} to="/funcionario-dashboard/profile">Perfil</Button>
             <Button color="inherit" onClick={handleLogout}>Sair</Button>
           </Box>
-        ) : userType === 'GESTOR' ? (
+        ) : user.cargo === 'GESTOR' ? (
           <Box>
-            <Button color="inherit" component={Link} to="/all-process">Processos</Button>
+            <Button color="inherit" component={Link} to="/gestor-dashboard/all-process">Processos</Button>
             <Button color="inherit" onClick={handleMenuOpen}>Cadastros</Button>
             <Menu
               anchorEl={anchorEl}
               open={Boolean(anchorEl)}
               onClose={handleMenuClose}
             >
-              <MenuItem component={Link} to="/all-usuarios" onClick={handleMenuClose}>Usuários</MenuItem>
-              <MenuItem component={Link} to="/all-funcionarios" onClick={handleMenuClose}>Funcionários</MenuItem>
+              <MenuItem component={Link} to="/gestor-dashboard/all-usuarios" onClick={handleMenuClose}>Usuários</MenuItem>
+              <MenuItem component={Link} to="/gestor-dashboard/all-funcionarios" onClick={handleMenuClose}>Funcionários</MenuItem>
             </Menu>
-            <Button color="inherit" component={Link} to="/profile">Perfil</Button>
+            <Button color="inherit" component={Link} to="/gestor-dashboard/profile">Perfil</Button>
             <Button color="inherit" onClick={handleLogout}>Sair</Button>
           </Box>
         ) : null}

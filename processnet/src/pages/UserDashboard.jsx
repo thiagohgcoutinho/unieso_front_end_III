@@ -1,19 +1,28 @@
 import React from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
+import { Typography, Box } from '@mui/material';
+import { Routes, Route } from 'react-router-dom';
 import NewProcess from './NewProcess';
 import ViewProcess from './ViewProcess';
 import Profile from './Profile';
+import { useAuth } from '../AuthContext';
 
 const UserDashboard = () => {
+  const { user } = useAuth();
+
   return (
-    <div>
-      <h1>Tela de Usuário</h1>
+    <Box sx={{ p: 3 }}>
+      <Typography variant="h4" component="h1" gutterBottom>
+        Seja bem-vindo ao ProcessNet
+      </Typography>
+      <Typography variant="h5" component="h2">
+        {user?.name}
+      </Typography>
       <Routes>
         <Route path="new-process" element={<NewProcess />} />
         <Route path="view-process" element={<ViewProcess />} />
         <Route path="profile" element={<Profile />} />
       </Routes>
-    </div>
+    </Box>
   );
 };
 

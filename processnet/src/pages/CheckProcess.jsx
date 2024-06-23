@@ -1,12 +1,12 @@
 import React from 'react';
 
-function CheckProcess() {
+const CheckProcess = () => {
   return (
     <div>
-      <h2>Verificar Processo</h2>
-      {/* Adicione o conteúdo da página aqui */}
+      <h1>Verificar Processo</h1>
+      {/* Conteúdo da página */}
     </div>
   );
-}
+};
 
 export default CheckProcess;

@@ -4,7 +4,7 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import axios from '../axiosConfig';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useAuth } from '../AuthContext'; // Importe o useAuth
+import { useAuth } from '../AuthContext';
 
 function Login() {
   const [cpf, setCpf] = useState('');
@@ -31,17 +31,28 @@ function Login() {
     const cpfOnlyDigits = cpf.replace(/\D/g, '');
     try {
       const response = await axios.post('/api/pessoas/authenticate', { cpf: cpfOnlyDigits, senha });
-      const userType = response.data;
+      const user = response.data;
 
-      // Armazenar no local storage se necessário
-      login(userType);
+      let userData = {
+        idPessoa: user.idPessoa,
+        name: user.nome,
+        type: user.tipo === 'usuario' ? 'Usuário' : 'Funcionário',
+        cargo: user.cargo || null,
+        telefone: user.telefone,
+        email: user.email,
+        cpf: user.cpf
+      };
 
-      if (userType === 'usuario') {
+      login(userData);
+
+      if (user.tipo === 'funcionario') {
+        if (user.cargo === 'VISTORIADOR' || user.cargo === 'ANALISTA') {
+          navigate('/funcionario-dashboard');
+        } else if (user.cargo === 'GESTOR') {
+          navigate('/gestor-dashboard');
+        }
+      } else {
         navigate('/user-dashboard');
-      } else if (userType === 'VISTORIADOR' || userType === 'ANALISTA') {
-        navigate('/funcionario-dashboard');
-      } else if (userType === 'GESTOR') {
-        navigate('/gestor-dashboard');
       }
     } catch (error) {
       if (error.response) {
