@@ -1,21 +1,22 @@
-// src/pages/GestorDashboard.jsx
 import React from 'react';
-import { Container, Typography, Box, Button } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
+import AllProcess from './AllProcess';
+import AllUsuarios from './AllUsuarios';
+import AllFuncionarios from './AllFuncionarios';
+import Profile from './Profile';
 
-function GestorDashboard() {
+const GestorDashboard = () => {
   return (
-    <Container>
-      <Box sx={{ mt: 5 }}>
-        <Typography variant="h4" gutterBottom>
-          Painel do Gestor
-        </Typography>
-        <Button variant="contained" color="primary" component={Link} to="/processos">
-          Consultar Todos os Processos
-        </Button>
-      </Box>
-    </Container>
+    <div>
+      <h1>Tela de Gestor</h1>
+      <Routes>
+        <Route path="all-process" element={<AllProcess />} />
+        <Route path="all-usuarios" element={<AllUsuarios />} />
+        <Route path="all-funcionarios" element={<AllFuncionarios />} />
+        <Route path="profile" element={<Profile />} />
+      </Routes>
+    </div>
   );
-}
+};
 
 export default GestorDashboard;

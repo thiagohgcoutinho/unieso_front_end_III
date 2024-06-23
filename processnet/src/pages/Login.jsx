@@ -4,11 +4,13 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import axios from '../axiosConfig';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useAuth } from '../AuthContext'; // Importe o useAuth
 
 function Login() {
   const [cpf, setCpf] = useState('');
   const [senha, setSenha] = useState('');
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const formatCpf = (value) => {
     return value
@@ -32,7 +34,7 @@ function Login() {
       const userType = response.data;
 
       // Armazenar no local storage se necessário
-      localStorage.setItem('userType', userType);
+      login(userType);
 
       if (userType === 'usuario') {
         navigate('/user-dashboard');

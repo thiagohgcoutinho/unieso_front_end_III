@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Box } from '@mui/material';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
@@ -12,41 +12,36 @@ import GestorDashboard from './pages/GestorDashboard';
 import ProcessDetail from './pages/ProcessDetail';
 import Navbar from './components/Navbar';
 import theme from './theme';
+import { AuthProvider } from './AuthContext';
 
 function App() {
-  const navigate = useNavigate();
-  const [userType, setUserType] = useState(null);
-
-  useEffect(() => {
-    const type = localStorage.getItem('userType');
-    setUserType(type);
-  }, []);
-
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Navbar />
-      <Box sx={{ display: 'flex', mt: '64px' }}>
-        <Box
-          component="main"
-          sx={{
-            flexGrow: 1,
-            bgcolor: 'background.default',
-            p: 3,
-          }}
-        >
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/user-dashboard/*" element={<UserDashboard />} />
-            <Route path="/funcionario-dashboard/*" element={<FuncionarioDashboard />} />
-            <Route path="/gestor-dashboard/*" element={<GestorDashboard />} />
-            <Route path="/processos/:id" element={<ProcessDetail />} />
-          </Routes>
+    <AuthProvider>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Navbar />
+        <Box sx={{ display: 'flex', mt: '64px' }}>
+          <Box
+            component="main"
+            sx={{
+              flexGrow: 1,
+              bgcolor: 'background.default',
+              p: 3,
+            }}
+          >
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/user-dashboard/*" element={<UserDashboard />} />
+              <Route path="/funcionario-dashboard/*" element={<FuncionarioDashboard />} />
+              <Route path="/gestor-dashboard/*" element={<GestorDashboard />} />
+              <Route path="/processos/:id" element={<ProcessDetail />} />
+            </Routes>
+          </Box>
         </Box>
-      </Box>
-    </ThemeProvider>
+      </ThemeProvider>
+    </AuthProvider>
   );
 }
 
