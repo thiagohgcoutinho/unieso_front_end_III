@@ -26,6 +26,8 @@ const Navbar = () => {
     setAnchorEl(null);
   };
 
+  const cargo = user && user.cargo ? user.cargo.toUpperCase() : '';
+
   if (!isAuthenticated) {
     return (
       <AppBar position="fixed">
@@ -48,7 +50,7 @@ const Navbar = () => {
         <Typography variant="h6" style={{ flexGrow: 1 }}>
           ProcessNet
         </Typography>
-        {user.tipo === 'Usuario' ? (
+        {user.tipo === 'USUARIO' ? (
           <Box>
             <Button color="inherit" onClick={handleMenuOpen}>Processo</Button>
             <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
@@ -58,7 +60,7 @@ const Navbar = () => {
             <Button color="inherit" component={Link} to="/user-dashboard/profile">Perfil</Button>
             <Button color="inherit" onClick={handleLogout}>Sair</Button>
           </Box>
-        ) : (user.cargo === 'Vistoriador' || user.cargo === 'Analista') ? (
+        ) : (cargo === 'VISTORIADOR' || cargo === 'ANALISTA') ? (
           <Box>
             <Button color="inherit" onClick={handleMenuOpen}>Processo</Button>
             <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
@@ -68,7 +70,7 @@ const Navbar = () => {
             <Button color="inherit" component={Link} to="/funcionario-dashboard/profile">Perfil</Button>
             <Button color="inherit" onClick={handleLogout}>Sair</Button>
           </Box>
-        ) : user.cargo === 'Gestor' ? (
+        ) : cargo === 'GESTOR' ? (
           <Box>
             <Button color="inherit" component={Link} to="/gestor-dashboard/all-process">Processos</Button>
             <Button color="inherit" onClick={handleMenuOpen}>Cadastros</Button>

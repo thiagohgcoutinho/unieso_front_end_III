@@ -26,7 +26,7 @@ const NewProcess = () => {
     e.preventDefault();
 
     const novoProcesso = {
-      tipoProcesso: tipoProcesso === 'VISTORIA' ? 'Vistoria' : 'Analise',
+      tipoProcesso: tipoProcesso,
       cnpj: cnpj.replace(/\D/g, ''), // Remove a formatação do CNPJ
       endereco,
       responsavel: {

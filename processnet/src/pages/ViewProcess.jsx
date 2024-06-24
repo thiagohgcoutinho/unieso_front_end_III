@@ -14,11 +14,11 @@ const formatCNPJ = (cnpj) => {
 
 const getStatusStyle = (status) => {
   switch (status) {
-    case 'Concluido':
+    case 'CONCLUIDO':
       return { backgroundColor: '#007bff', color: '#fff', padding: '4px 8px', borderRadius: '8px', textAlign: 'center' }; // Azul
-    case 'Em Analise':
+    case 'EM_ANALISE':
       return { backgroundColor: '#f0ad4e', color: '#fff', padding: '4px 8px', borderRadius: '8px', textAlign: 'center' };
-    case 'Aguardando':
+    case 'AGUARDANDO':
       return { backgroundColor: '#6c757d', color: '#fff', padding: '4px 8px', borderRadius: '8px', textAlign: 'center' };
     default:
       return {};
@@ -27,11 +27,11 @@ const getStatusStyle = (status) => {
 
 const getParecerStyle = (parecer) => {
   switch (parecer) {
-    case 'Aprovado':
+    case 'APROVADO':
       return { backgroundColor: '#28a745', color: '#fff', padding: '4px 8px', borderRadius: '8px', textAlign: 'center' }; // Verde
-    case 'Reprovado':
+    case 'REPROVADO':
       return { backgroundColor: '#dc3545', color: '#fff', padding: '4px 8px', borderRadius: '8px', textAlign: 'center' }; // Vermelho
-    case 'Aguardando':
+    case 'AGUARDANDO':
       return { backgroundColor: '#6c757d', color: '#fff', padding: '4px 8px', borderRadius: '8px', textAlign: 'center' };
     default:
       return {};
@@ -51,8 +51,8 @@ const ViewProcess = () => {
       try {
         const response = await axios.get(`/api/processos/responsavel/${user.idPessoa}`);
         const processos = response.data;
-        const vistoria = processos.filter(processo => processo.tipoProcesso === 'Vistoria');
-        const analise = processos.filter(processo => processo.tipoProcesso === 'Analise');
+        const vistoria = processos.filter(processo => processo.tipoProcesso === 'VISTORIA');
+        const analise = processos.filter(processo => processo.tipoProcesso === 'ANALISE');
         setVistoriaProcessos(vistoria);
         setAnaliseProcessos(analise);
       } catch (error) {
@@ -86,8 +86,8 @@ const ViewProcess = () => {
       // Re-fetch the processes to update the table
       const response = await axios.get(`/api/processos/responsavel/${user.idPessoa}`);
       const processos = response.data;
-      const vistoria = processos.filter(processo => processo.tipoProcesso === 'Vistoria');
-      const analise = processos.filter(processo => processo.tipoProcesso === 'Analise');
+      const vistoria = processos.filter(processo => processo.tipoProcesso === 'VISTORIA');
+      const analise = processos.filter(processo => processo.tipoProcesso === 'ANALISE');
       setVistoriaProcessos(vistoria);
       setAnaliseProcessos(analise);
     } catch (error) {
@@ -212,7 +212,7 @@ const ViewProcess = () => {
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
                 <Typography variant="subtitle2">Data de Criação: {selectedProcess.dataCriacao}</Typography>
                 <Typography variant="subtitle2">
-                  {selectedProcess.tipoProcesso === 'Vistoria' ? 'Vistoriador' : 'Analista'}: {selectedProcess.vistoriador || 'Não Selecionado'}
+                  {selectedProcess.tipoProcesso === 'VISTORIA' ? 'Vistoriador' : 'Analista'}: {selectedProcess.vistoriador || 'Não Selecionado'}
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>

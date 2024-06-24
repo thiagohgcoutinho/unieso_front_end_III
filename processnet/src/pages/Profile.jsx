@@ -25,7 +25,18 @@ const Profile = () => {
 
   const handleSave = async () => {
     try {
-      const response = await axios.put(`/api/usuarios/${user.idPessoa}`, editedUser);
+      const cleanedTelefone = editedUser.telefone.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
+      const userData = {
+        nome: editedUser.nome,
+        cpf: editedUser.cpf,
+        email: editedUser.email,
+        senha: editedUser.senha,
+        telefone: cleanedTelefone,
+        tipo: user.tipo, // Adicione este campo apenas para enviar no payload
+        cargo: user.tipo === 'FUNCIONARIO' ? editedUser.cargo : undefined, // Adicione o cargo apenas se for funcionário
+      };
+  
+      const response = await axios.put(`/api/pessoas/update/${user.idPessoa}`, userData);
       login(response.data); // Atualiza o usuário no contexto de autenticação
       toast.success('Perfil atualizado com sucesso!');
       setIsEditMode(false);

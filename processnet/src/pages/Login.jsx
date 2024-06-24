@@ -36,8 +36,8 @@ function Login() {
       const userData = {
         idPessoa: user.idPessoa,
         nome: user.nome,
-        tipo: user.tipo === 'Usuario' ? 'Usuario' : 'Funcionario',
-        cargo: user.cargo || null,
+        tipo: user.tipo.toUpperCase(),
+        cargo: user.cargo ? user.cargo.toUpperCase() : null,
         telefone: user.telefone,
         email: user.email,
         cpf: user.cpf
@@ -45,10 +45,10 @@ function Login() {
 
       login(userData);
 
-      if (user.tipo === 'Funcionario') {
-        if (user.cargo === 'Vistoriador' || user.cargo === 'Analista') {
+      if (userData.tipo === 'FUNCIONARIO') {
+        if (userData.cargo === 'VISTORIADOR' || userData.cargo === 'ANALISTA') {
           navigate('/funcionario-dashboard');
-        } else if (user.cargo === 'Gestor') {
+        } else if (userData.cargo === 'GESTOR') {
           navigate('/gestor-dashboard');
         }
       } else {

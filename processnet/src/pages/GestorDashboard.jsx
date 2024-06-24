@@ -15,9 +15,6 @@ const GestorDashboard = () => {
       <Typography variant="h4" component="h1" gutterBottom>
         Seja bem-vindo ao ProcessNet
       </Typography>
-      <Typography variant="h5" component="h2">
-        {user?.name}
-      </Typography>
       <Routes>
         <Route path="all-process" element={<AllProcess />} />
         <Route path="all-usuarios" element={<AllUsuarios />} />
