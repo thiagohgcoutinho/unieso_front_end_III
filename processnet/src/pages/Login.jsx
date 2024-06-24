@@ -33,10 +33,10 @@ function Login() {
       const response = await axios.post('/api/pessoas/authenticate', { cpf: cpfOnlyDigits, senha });
       const user = response.data;
 
-      let userData = {
+      const userData = {
         idPessoa: user.idPessoa,
-        name: user.nome,
-        type: user.tipo === 'usuario' ? 'Usuário' : 'Funcionário',
+        nome: user.nome,
+        tipo: user.tipo === 'Usuario' ? 'Usuario' : 'Funcionario',
         cargo: user.cargo || null,
         telefone: user.telefone,
         email: user.email,
@@ -45,10 +45,10 @@ function Login() {
 
       login(userData);
 
-      if (user.tipo === 'funcionario') {
-        if (user.cargo === 'VISTORIADOR' || user.cargo === 'ANALISTA') {
+      if (user.tipo === 'Funcionario') {
+        if (user.cargo === 'Vistoriador' || user.cargo === 'Analista') {
           navigate('/funcionario-dashboard');
-        } else if (user.cargo === 'GESTOR') {
+        } else if (user.cargo === 'Gestor') {
           navigate('/gestor-dashboard');
         }
       } else {

@@ -14,9 +14,6 @@ const UserDashboard = () => {
       <Typography variant="h4" component="h1" gutterBottom>
         Seja bem-vindo ao ProcessNet
       </Typography>
-      <Typography variant="h5" component="h2">
-        {user?.name}
-      </Typography>
       <Routes>
         <Route path="new-process" element={<NewProcess />} />
         <Route path="view-process" element={<ViewProcess />} />
