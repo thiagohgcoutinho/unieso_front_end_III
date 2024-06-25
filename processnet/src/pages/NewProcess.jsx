@@ -30,7 +30,8 @@ const NewProcess = () => {
       cnpj: cnpj.replace(/\D/g, ''), // Remove a formatação do CNPJ
       endereco,
       responsavel: {
-        idPessoa: user?.idPessoa // Certifique-se de que o ID do usuário está sendo passado
+        idPessoa: user?.idPessoa,
+        tipo: "Usuario" // Certifique-se de que o tipo é sempre "Usuario"
       }
     };
 

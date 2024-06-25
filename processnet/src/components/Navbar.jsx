@@ -50,7 +50,7 @@ const Navbar = () => {
         <Typography variant="h6" style={{ flexGrow: 1 }}>
           ProcessNet
         </Typography>
-        {user.tipo === 'USUARIO' ? (
+        {user.tipo === 'Usuario' ? (
           <Box>
             <Button color="inherit" onClick={handleMenuOpen}>Processo</Button>
             <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>

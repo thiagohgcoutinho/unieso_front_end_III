@@ -32,10 +32,9 @@ const Profile = () => {
         email: editedUser.email,
         senha: editedUser.senha,
         telefone: cleanedTelefone,
-        tipo: user.tipo, // Adicione este campo apenas para enviar no payload
-        cargo: user.tipo === 'FUNCIONARIO' ? editedUser.cargo : undefined, // Adicione o cargo apenas se for funcionário
+        tipo: editedUser.tipo // Incluindo o tipo no JSON
       };
-  
+
       const response = await axios.put(`/api/pessoas/update/${user.idPessoa}`, userData);
       login(response.data); // Atualiza o usuário no contexto de autenticação
       toast.success('Perfil atualizado com sucesso!');
@@ -46,32 +45,6 @@ const Profile = () => {
     }
   };
 
-  const formatCpf = (cpf) => {
-    return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
-  };
-
-  const formatTelefone = (telefone) => {
-    return telefone.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
-  };
-
-  const handleCpfChange = (e) => {
-    const formattedCpf = e.target.value
-      .replace(/\D/g, '')
-      .slice(0, 11)
-      .replace(/(\d{3})(\d)/, '$1.$2')
-      .replace(/(\d{3})(\d)/, '$1.$2')
-      .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-    setEditedUser({ ...editedUser, cpf: formattedCpf });
-  };
-
-  const handleTelefoneChange = (e) => {
-    const formattedTelefone = e.target.value
-      .replace(/\D/g, '')
-      .slice(0, 11)
-      .replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
-    setEditedUser({ ...editedUser, telefone: formattedTelefone });
-  };
-
   return (
     <Box sx={{ p: 3 }}>
       <ToastContainer />
@@ -79,9 +52,9 @@ const Profile = () => {
         Meu cadastro
       </Typography>
       <Box sx={{ mt: 2 }}>
-        <Typography variant="body1"><strong>CPF:</strong> {formatCpf(user?.cpf)}</Typography>
+        <Typography variant="body1"><strong>CPF:</strong> {user?.cpf}</Typography>
         <Typography variant="body1"><strong>Nome:</strong> {user?.nome}</Typography>
-        <Typography variant="body1"><strong>Telefone:</strong> {formatTelefone(user?.telefone)}</Typography>
+        <Typography variant="body1"><strong>Telefone:</strong> {user?.telefone}</Typography>
         <Typography variant="body1"><strong>E-mail:</strong> {user?.email}</Typography>
         <Typography variant="body1"><strong>Tipo:</strong> {user?.tipo}</Typography>
         {user?.tipo === 'Funcionario' && (
@@ -111,7 +84,7 @@ const Profile = () => {
             value={editedUser.telefone}
             fullWidth
             margin="normal"
-            onChange={handleTelefoneChange}
+            onChange={(e) => setEditedUser({ ...editedUser, telefone: e.target.value })}
           />
           <TextField
             label="E-mail"

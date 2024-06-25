@@ -36,7 +36,7 @@ function Login() {
       const userData = {
         idPessoa: user.idPessoa,
         nome: user.nome,
-        tipo: user.tipo.toUpperCase(),
+        tipo: user.tipo.charAt(0).toUpperCase() + user.tipo.slice(1).toLowerCase(), // Padronizando o tipo
         cargo: user.cargo ? user.cargo.toUpperCase() : null,
         telefone: user.telefone,
         email: user.email,
@@ -45,7 +45,7 @@ function Login() {
 
       login(userData);
 
-      if (userData.tipo === 'FUNCIONARIO') {
+      if (userData.tipo === 'Funcionario') {
         if (userData.cargo === 'VISTORIADOR' || userData.cargo === 'ANALISTA') {
           navigate('/funcionario-dashboard');
         } else if (userData.cargo === 'GESTOR') {

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Container, TextField, Button, Typography, Box, FormControl, InputLabel, Select, MenuItem, FormHelperText } from '@mui/material';
+import { Container, TextField, Button, Typography, Box, FormControl, InputLabel, Select, MenuItem, FormHelperText, InputAdornment, IconButton } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import axios from '../axiosConfig';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
@@ -23,6 +24,8 @@ function Register() {
   const [email, setEmail] = useState('');
   const [telefone, setTelefone] = useState('');
   const [cargo, setCargo] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
 
   const formatCpf = (value) => {
@@ -56,7 +59,6 @@ function Register() {
 
   const handleCpfBlur = async () => {
     const cpfOnlyDigits = cpf.replace(/\D/g, '');
-    console.log(`CPF blur triggered: ${cpfOnlyDigits}`); // Adicionado para debug
     if (cpfOnlyDigits.length === 11) {
       try {
         const response = await axios.get(`/api/pessoas/verificar-cpf?cpf=${cpfOnlyDigits}`);
@@ -88,7 +90,14 @@ function Register() {
       return;
     }
     try {
-      const data = { cpf: cpf.replace(/\D/g, ''), senha, nome, email, telefone: telefone.replace(/\D/g, '') };
+      const data = { 
+        cpf: cpf.replace(/\D/g, ''), 
+        senha, 
+        nome, 
+        email, 
+        telefone: telefone.replace(/\D/g, ''),
+        tipo: perfil === 'usuario' ? 'Usuario' : 'Funcionario' // Inclui a propriedade tipo
+      };
       if (perfil === 'funcionario') {
         data.cargo = cargo;
       }
@@ -105,10 +114,10 @@ function Register() {
       });
     } catch (error) {
       if (error.response && error.response.data) {
-        console.error('Erro ao registrar:', error.response.data); // Adicionado para debug
+        console.error('Erro ao registrar:', error.response.data); 
         alert(`Erro ao registrar: ${error.response.data.message}`);
       } else {
-        console.error('Erro ao registrar:', error); // Adicionado para debug
+        console.error('Erro ao registrar:', error); 
         alert('Erro ao registrar. Tente novamente mais tarde.');
       }
     }
@@ -116,6 +125,14 @@ function Register() {
 
   const formatCargo = (cargo) => {
     return cargo.charAt(0) + cargo.slice(1).toLowerCase();
+  };
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleClickShowConfirmPassword = () => {
+    setShowConfirmPassword(!showConfirmPassword);
   };
 
   return (
@@ -195,21 +212,39 @@ function Register() {
           />
           <TextField
             label="Senha"
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             variant="outlined"
             fullWidth
             margin="normal"
             value={senha}
             onChange={(e) => setSenha(e.target.value)}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={handleClickShowPassword} edge="end">
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              )
+            }}
           />
           <TextField
             label="Confirme a Senha"
-            type="password"
+            type={showConfirmPassword ? 'text' : 'password'}
             variant="outlined"
             fullWidth
             margin="normal"
             value={confirmSenha}
             onChange={(e) => setConfirmSenha(e.target.value)}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={handleClickShowConfirmPassword} edge="end">
+                    {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              )
+            }}
           />
           <Button type="submit" variant="contained" color="primary" fullWidth>
             Cadastrar
