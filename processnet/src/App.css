@@ -1,0 +1,95 @@
+.icon-blue {
+  color: #007bff;
+}
+
+.icon-red {
+  color: #f44336;
+}
+
+.icon-cyan {
+  color: #00bcd4;
+}
+
+.card-shadow {
+  box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.25);
+  border-radius: 12px;
+  padding: 16px;
+  background-color: #fff;
+}
+
+.table-head {
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
+
+.table-head-cell {
+  font-weight: bold;
+}
+
+.card-content {
+  margin-bottom: 16px;
+}
+
+.status-indicator, .parecer-indicator {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 0.8rem;
+  color: #fff;
+}
+
+.status-concluido {
+  background-color: #007bff;
+}
+
+.status-em-analise {
+  background-color: #f0ad4e;
+}
+
+.status-aguardando {
+  background-color: #6c757d;
+}
+
+.parecer-aprovado {
+  background-color: #28a745;
+}
+
+.parecer-reprovado {
+  background-color: #dc3545;
+}
+
+.parecer-aguardando {
+  background-color: #6c757d;
+}
+
+.card-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.card-column {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+}
+
+.tipo-indicator {
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+}
+
+.tipo-vistoria {
+  background-color: #f44336; /* Cor para VISTORIA */
+}
+
+.tipo-analise {
+  background-color: #00bcd4; /* Cor para ANALISE */
+}

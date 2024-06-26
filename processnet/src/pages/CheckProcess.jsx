@@ -88,12 +88,12 @@ const CheckProcess = () => {
   const commonTableHead = (
     <TableHead>
       <TableRow>
-        <TableCell sx={{ backgroundColor: '#e3f2fd', fontWeight: 'bold', fontSize: '1.1rem' }}>Protocolo</TableCell>
-        <TableCell sx={{ backgroundColor: '#e3f2fd', fontWeight: 'bold', fontSize: '1.1rem' }}>CNPJ</TableCell>
-        <TableCell sx={{ backgroundColor: '#e3f2fd', fontWeight: 'bold', fontSize: '1.1rem' }}>Endereço</TableCell>
-        <TableCell sx={{ backgroundColor: '#e3f2fd', fontWeight: 'bold', fontSize: '1.1rem' }}>Status</TableCell>
-        <TableCell sx={{ backgroundColor: '#e3f2fd', fontWeight: 'bold', fontSize: '1.1rem' }}>Parecer</TableCell>
-        <TableCell sx={{ backgroundColor: '#e3f2fd', fontWeight: 'bold', fontSize: '1.1rem', textAlign: 'center' }}>Opções</TableCell>
+        <TableCell sx={{ backgroundColor: '#f5f5f5', fontWeight: 'bold', fontSize: '1.1rem' }}>Protocolo</TableCell>
+        <TableCell sx={{ backgroundColor: '#f5f5f5', fontWeight: 'bold', fontSize: '1.1rem' }}>CNPJ</TableCell>
+        <TableCell sx={{ backgroundColor: '#f5f5f5', fontWeight: 'bold', fontSize: '1.1rem' }}>Endereço</TableCell>
+        <TableCell sx={{ backgroundColor: '#f5f5f5', fontWeight: 'bold', fontSize: '1.1rem' }}>Status</TableCell>
+        <TableCell sx={{ backgroundColor: '#f5f5f5', fontWeight: 'bold', fontSize: '1.1rem' }}>Parecer</TableCell>
+        <TableCell sx={{ backgroundColor: '#f5f5f5', fontWeight: 'bold', fontSize: '1.1rem', textAlign: 'center' }}>Opções</TableCell>
       </TableRow>
     </TableHead>
   );
@@ -105,7 +105,11 @@ const CheckProcess = () => {
         const numeroProtocoloB = parseInt(b.numeroProtocolo.replace('/', ''), 10);
         return numeroProtocoloB - numeroProtocoloA;
       }).map((processo) => (
-        <TableRow key={processo.id}>
+        <TableRow
+          key={processo.id}
+          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f5f5f5'}
+          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+        >
           <TableCell>{formatNumeroProtocolo(processo.numeroProtocolo)}</TableCell>
           <TableCell>{formatCNPJ(processo.cnpj)}</TableCell>
           <TableCell>{processo.endereco}</TableCell>

@@ -3,6 +3,8 @@ import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead
 import axios from '../axiosConfig';
 import { useAuth } from '../AuthContext';
 import SearchIcon from '@mui/icons-material/Search';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const formatNumeroProtocolo = (numeroProtocolo) => {
   return numeroProtocolo.replace(/(\d{3})(\d{4})/, '$1/$2');
@@ -83,6 +85,7 @@ const ViewProcess = () => {
     try {
       await axios.put(`/api/processos/${selectedProcess.id}`, selectedProcess);
       handleClose();
+      toast.success('Processo atualizado com sucesso!');
       // Re-fetch the processes to update the table
       const response = await axios.get(`/api/processos/responsavel/${user.idPessoa}`);
       const processos = response.data;
@@ -92,6 +95,7 @@ const ViewProcess = () => {
       setAnaliseProcessos(analise);
     } catch (error) {
       console.error('Erro ao salvar o processo:', error);
+      toast.error('Erro ao atualizar o processo.');
     }
   };
 
@@ -141,6 +145,7 @@ const ViewProcess = () => {
 
   return (
     <Box sx={{ p: 3 }}>
+      <ToastContainer />
       <Typography variant="h4" component="h1" gutterBottom>
         Processos
       </Typography>
@@ -198,21 +203,21 @@ const ViewProcess = () => {
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1, alignItems: 'flex-start' }}>
                   <Typography variant="subtitle1" sx={{ mb: 1 }}>
-                    Status:
+                  <strong>Status:</strong>
                   </Typography>
                   <Box sx={getStatusStyle(selectedProcess.status)}>{selectedProcess.status}</Box>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1, alignItems: 'flex-start' }}>
                   <Typography variant="subtitle1" sx={{ mb: 1 }}>
-                    Parecer:
+                    <strong>Parecer:</strong>
                   </Typography>
                   <Box sx={getParecerStyle(selectedProcess.parecer)}>{selectedProcess.parecer}</Box>
                 </Box>
               </Box>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-                <Typography variant="subtitle2">Data de Criação: {selectedProcess.dataCriacao}</Typography>
+                <Typography variant="subtitle2"><strong>Data de Criação:</strong> {selectedProcess.dataCriacao}</Typography>
                 <Typography variant="subtitle2">
-                  {selectedProcess.tipoProcesso === 'VISTORIA' ? 'Vistoriador' : 'Analista'}: {selectedProcess.vistoriador || 'Não Selecionado'}
+                  <strong>{selectedProcess.tipoProcesso === 'VISTORIA' ? 'Vistoriador' : 'Analista'}:</strong> {selectedProcess.vistoriador || 'Não Selecionado'}
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>

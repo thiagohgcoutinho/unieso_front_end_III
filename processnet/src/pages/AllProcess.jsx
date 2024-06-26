@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Tooltip, Modal, TextField, Button, Grid, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
+import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Tooltip, Modal, Grid, MenuItem, Select, InputLabel, FormControl, TextField } from '@mui/material';
 import { useAuth } from '../AuthContext';
 import axios from '../axiosConfig';
 import SearchIcon from '@mui/icons-material/Search';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+const formatCnpj = (cnpj) => {
+  return cnpj.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
+};
+
+const formatProtocolo = (protocolo) => {
+  return protocolo.replace(/(\d{3})(\d{4})/, '$1/$2');
+};
 
 const AllProcess = () => {
   const { user } = useAuth();
   const [processos, setProcessos] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [selectedProcess, setSelectedProcess] = useState(null);
   const [filters, setFilters] = useState({
     tipo: '',
@@ -44,9 +51,9 @@ const AllProcess = () => {
   const getTipoStyle = (tipo) => {
     switch (tipo) {
       case 'VISTORIA':
-        return { backgroundColor: '#f44336', color: '#fff', padding: '2px 8px', borderRadius: '8px', textAlign: 'center', fontSize: '0.875rem', fontWeight: 'bold' };
+        return { backgroundColor: '#f44336', color: '#fff', padding: '2px 8px', borderRadius: '8px', textAlign: 'center', fontSize: '0.75rem', fontWeight: 'bold' };
       case 'ANALISE':
-        return { backgroundColor: '#00bcd4', color: '#fff', padding: '2px 8px', borderRadius: '8px', textAlign: 'center', fontSize: '0.875rem', fontWeight: 'bold' };
+        return { backgroundColor: '#00bcd4', color: '#fff', padding: '2px 8px', borderRadius: '8px', textAlign: 'center', fontSize: '0.75rem', fontWeight: 'bold' };
       default:
         return {};
     }
@@ -55,50 +62,32 @@ const AllProcess = () => {
   const getStatusStyle = (status) => {
     switch (status) {
       case 'CONCLUIDO':
-        return { backgroundColor: '#007bff', color: '#fff', padding: '4px 8px', borderRadius: '8px', textAlign: 'center' };
+        return { backgroundColor: '#007bff', color: '#fff', padding: '2px 8px', borderRadius: '8px', textAlign: 'center', fontSize: '0.75rem', fontWeight: 'bold', maxWidth: '100px', marginLeft: 0 };
       case 'EM_ANALISE':
-        return { backgroundColor: '#f0ad4e', color: '#fff', padding: '4px 8px', borderRadius: '8px', textAlign: 'center' };
+        return { backgroundColor: '#f0ad4e', color: '#fff', padding: '2px 8px', borderRadius: '8px', textAlign: 'center', fontSize: '0.75rem', fontWeight: 'bold', maxWidth: '100px', marginLeft: 0 };
       case 'AGUARDANDO':
-        return { backgroundColor: '#6c757d', color: '#fff', padding: '4px 8px', borderRadius: '8px', textAlign: 'center' };
+        return { backgroundColor: '#6c757d', color: '#fff', padding: '2px 8px', borderRadius: '8px', textAlign: 'center', fontSize: '0.75rem', fontWeight: 'bold', maxWidth: '100px', marginLeft: 0 };
       default:
         return {};
     }
   };
-
+  
   const getParecerStyle = (parecer) => {
     switch (parecer) {
       case 'APROVADO':
-        return { backgroundColor: '#28a745', color: '#fff', padding: '4px 8px', borderRadius: '8px', textAlign: 'center' };
+        return { backgroundColor: '#28a745', color: '#fff', padding: '2px 8px', borderRadius: '8px', textAlign: 'center', fontSize: '0.75rem', fontWeight: 'bold', maxWidth: '100px', marginLeft: 0 };
       case 'REPROVADO':
-        return { backgroundColor: '#dc3545', color: '#fff', padding: '4px 8px', borderRadius: '8px', textAlign: 'center' };
+        return { backgroundColor: '#dc3545', color: '#fff', padding: '2px 8px', borderRadius: '8px', textAlign: 'center', fontSize: '0.75rem', fontWeight: 'bold', maxWidth: '100px', marginLeft: 0 };
       case 'AGUARDANDO':
-        return { backgroundColor: '#6c757d', color: '#fff', padding: '4px 8px', borderRadius: '8px', textAlign: 'center' };
+        return { backgroundColor: '#6c757d', color: '#fff', padding: '2px 8px', borderRadius: '8px', textAlign: 'center', fontSize: '0.75rem', fontWeight: 'bold', maxWidth: '100px', marginLeft: 0 };
       default:
         return {};
     }
   };
 
-  const handleDeleteProcess = (id, numeroProtocolo) => {
-    setSelectedProcess({ id, numeroProtocolo });
-    setIsModalOpen(true);
-  };
-
-  const handleConfirmDelete = async () => {
-    try {
-      await axios.delete(`/api/processos/${selectedProcess.id}`);
-      toast.success('Processo excluído com sucesso!');
-      fetchProcessos();
-    } catch (error) {
-      console.error('Erro ao excluir o processo:', error);
-      toast.error('Erro ao excluir o processo. Tente novamente.');
-    } finally {
-      setIsModalOpen(false);
-    }
-  };
-
-  const handleViewProcess = (id) => {
-    // Lógica para visualizar o processo
-    console.log('Visualizar processo:', id);
+  const handleViewProcess = (processo) => {
+    setSelectedProcess(processo);
+    setIsViewModalOpen(true);
   };
 
   const filteredProcessos = processos.filter((processo) => {
@@ -112,7 +101,7 @@ const AllProcess = () => {
   }).sort((a, b) => b.id - a.id);
 
   const solicitantes = [...new Set(processos.map((processo) => processo.responsavel?.nome))];
-  const funcionarios = [...new Set(processos.map((processo) => processo.funcionario?.nome))];
+  const funcionarios   = [...new Set(processos.map((processo) => processo.funcionario?.nome))];
 
   return (
     <Box sx={{ p: 3 }}>
@@ -236,7 +225,7 @@ const AllProcess = () => {
                 </TableCell>
                 <TableCell>
                   <Box>
-                    <Typography variant="body1" sx={{ fontWeight: 'bold' }}>{processo.numeroProtocolo}</Typography>
+                    <Typography variant="body1" sx={{ fontWeight: 'bold' }}>{formatProtocolo(processo.numeroProtocolo)}</Typography>
                     <Typography variant="body2">{processo.cnpj}</Typography>
                     <Typography variant="body2">{processo.endereco}</Typography>
                   </Box>
@@ -252,17 +241,10 @@ const AllProcess = () => {
                 <TableCell>
                   <Box display="flex" justifyContent="center">
                     <Tooltip title="Visualizar">
-                      <IconButton color="primary" onClick={() => handleViewProcess(processo.id)}>
+                      <IconButton color="primary" onClick={() => handleViewProcess(processo)}>
                         <SearchIcon />
                       </IconButton>
                     </Tooltip>
-                    {processo.status !== 'CONCLUIDO' && (
-                      <Tooltip title="Excluir">
-                        <IconButton color="secondary" onClick={() => handleDeleteProcess(processo.id, processo.numeroProtocolo)}>
-                          <DeleteIcon />
-                        </IconButton>
-                      </Tooltip>
-                    )}
                   </Box>
                 </TableCell>
               </TableRow>
@@ -270,22 +252,24 @@ const AllProcess = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
+      <Modal open={isViewModalOpen} onClose={() => setIsViewModalOpen(false)}>
         <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
           <Typography variant="h6" component="h2" gutterBottom>
-            Confirmar Exclusão
+            Detalhes do Processo
           </Typography>
-          <Typography variant="body1" gutterBottom>
-            Tem certeza que deseja excluir o processo de número de protocolo {selectedProcess?.numeroProtocolo}?
-          </Typography>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
-            <Button onClick={() => setIsModalOpen(false)} sx={{ mr: 2 }}>
-              Cancelar
-            </Button>
-            <Button onClick={handleConfirmDelete} variant="contained" color="secondary">
-              Excluir
-            </Button>
-          </Box>
+          {selectedProcess && (
+            <>
+              <Typography><strong>Protocolo:</strong> {formatProtocolo(selectedProcess.numeroProtocolo)}</Typography>
+              <Typography><strong>CNPJ:</strong> {formatCnpj(selectedProcess.cnpj)}</Typography>
+              <Typography><strong>Endereço:</strong> {selectedProcess.endereco}</Typography>
+              <Typography><strong>Status:</strong> <Box sx={getStatusStyle(selectedProcess.status)}>{selectedProcess.status}</Box></Typography>
+              <Typography><strong>Parecer:</strong> <Box sx={getParecerStyle(selectedProcess.parecer)}>{selectedProcess.parecer}</Box></Typography>
+              <Typography><strong>Funcionário:</strong> {selectedProcess.funcionario ? selectedProcess.funcionario.nome : '-'}</Typography>
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
+                <Button onClick={() => setIsViewModalOpen(false)}>Fechar</Button>
+              </Box>
+            </>
+          )}
         </Box>
       </Modal>
     </Box>
@@ -293,3 +277,4 @@ const AllProcess = () => {
 };
 
 export default AllProcess;
+
