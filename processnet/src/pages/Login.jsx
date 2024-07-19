@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Container, TextField, Button, Typography, Box, Link } from '@mui/material';
+import { Container, Box, Typography, Link, TextField, Button } from '@mui/material';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import axios from '../axiosConfig';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../AuthContext';
+import '../App.css';
 
 function Login() {
   const [cpf, setCpf] = useState('');
@@ -75,31 +76,40 @@ function Login() {
   };
 
   return (
-    <Container maxWidth="sm">
-      <ToastContainer />
-      <Box sx={{ mt: 5 }}>
+    <Container maxWidth="sm" className="login-container">
+      <ToastContainer className="toast-container"/>
+      <Box className="login-box">
+        <img src="/processnet.jpeg" alt="ProcessNet Logo" className="login-logo" />
         <Typography variant="h4" gutterBottom>
           Login
         </Typography>
         <form onSubmit={handleSubmit}>
           <TextField
             label="CPF"
-            variant="outlined"
+            variant="filled"
             fullWidth
             margin="normal"
             value={cpf}
             onChange={handleCpfChange}
+            InputProps={{
+              disableUnderline: true,
+              className: 'custom-input'
+            }}
           />
           <TextField
             label="Senha"
             type="password"
-            variant="outlined"
+            variant="filled"
             fullWidth
             margin="normal"
             value={senha}
             onChange={(e) => setSenha(e.target.value)}
+            InputProps={{
+              disableUnderline: true,
+              className: 'custom-input'
+            }}
           />
-          <Button type="submit" variant="contained" color="primary" fullWidth>
+          <Button type="submit" variant="contained" fullWidth className="custom-button">
             Entrar
           </Button>
         </form>

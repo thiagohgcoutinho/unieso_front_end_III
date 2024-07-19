@@ -1,95 +1,415 @@
+/* Global Styles */
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #ffffff; /* Alterado para branco */
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 500;
+}
+
+a {
+  color: #00bcd4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Home Page Styles */
+.home-container {
+  position: relative;
+  text-align: center;
+  margin-top: 50px;
+  height: 100vh;
+}
+
+.home-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/processnet.jpeg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  opacity: 0.1;
+  z-index: 1;
+}
+
+.home-content {
+  position: relative;
+  z-index: 2;
+}
+
+.home-content h1 {
+  font-size: 3rem;
+  color: #00bcd4;
+}
+
+.home-content p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.home-content a {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: #fff;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.home-content a:hover {
+  background-color: #218838;
+}
+
+/* Login Page Styles */
+.login-container {
+  position: relative;
+  text-align: center;
+  margin-top: 50px;
+  height: 100vh;
+}
+
+.login-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/processnet.jpeg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  opacity: 0.1;
+  z-index: 1;
+}
+
+.login-box {
+  position: relative;
+  z-index: 2;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.25);
+  text-align: center;
+}
+
+.login-logo {
+  width: 100px;
+  margin-bottom: 20px;
+}
+
+.custom-input {
+  border-radius: 8px;
+  background-color: #fff !important;
+  border-bottom: 2px solid #007bff !important; /* Linha fina abaixo do campo */
+}
+
+.custom-button {
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+  text-transform: none;
+  margin-top: 20px;
+}
+
+.custom-button:hover {
+  background-color: #0056b3;
+}
+
+.MuiFilledInput-root {
+  background-color: #fff !important;
+  border-radius: 8px !important;
+  border-bottom: 2px solid #007bff !important; /* Linha fina abaixo do campo */
+}
+
+.MuiButton-root {
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+  text-transform: none;
+}
+
+.MuiButton-root:hover {
+  background-color: #0056b3;
+}
+
+/* Dashboard Page Styles */
+.dashboard-container {
+  position: relative;
+  text-align: center;
+  margin-top: 50px;
+  height: 100vh;
+}
+
+.dashboard-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/processnet.jpeg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  opacity: 0.1;
+  z-index: 1;
+}
+
+.dashboard-content {
+  position: relative;
+  z-index: 2;
+}
+
+.dashboard-welcome {
+  font-size: 3rem;
+  color: #000; /* Cor preta para o texto de boas-vindas */
+}
+
+.dashboard-text {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  color: #666; /* Cor do texto mais escura */
+}
+
+/* New Process Page Styles */
+.new-process-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+  text-align: center;
+}
+
+.new-process-content {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  max-width: 600px; /* Ajusta a largura máxima */
+  margin: 0 auto;
+}
+
+.toast-container {
+  z-index: 2000; /* Ajuste para garantir que as mensagens fiquem na frente da barra de navegação */
+  position: fixed;
+  top: 80px; /* Ajuste a posição conforme necessário */
+  right: 20px;
+}
+
+/* Modal Styles */
+.modal-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  background-color: #fff; /* Fundo branco */
+  box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.25);
+  padding: 16px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  z-index: 1500; /* Ajuste para garantir que o modal esteja na frente da barra de navegação */
+}
+
+.modal-box .custom-input {
+  border-radius: 8px;
+  background-color: #fff !important;
+  border-bottom: 2px solid #007bff !important; /* Linha fina abaixo do campo */
+}
+
+.modal-box .MuiTextField-root {
+  margin-top: 0; /* Remove o espaçamento padrão do campo de texto */
+}
+
+/* Profile Page Styles */
+.profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Ajustado para flex-start */
+  height: 100vh;
+  position: relative;
+  text-align: center;
+  padding-top: 100px; /* Ajuste conforme necessário */
+}
+
+.profile-box {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.25);
+  text-align: left;
+  max-width: 500px; /* Ajuste a largura conforme necessário */
+  width: 100%;
+  margin: 0 auto;
+}
+
+.profile-content {
+  text-align: left;
+}
+
+.profile-edit-button {
+  display: block;
+  margin: 20px auto 0;
+}
+
+/* SelectProcess Page Styles */
+.select-process-container {
+  padding: 20px;
+}
+
+.select-process-container .MuiList-root {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.select-process-container .MuiListItem-root {
+  padding: 15px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.select-process-container .MuiListItem-root:hover {
+  background-color: #f5f5f5;
+}
+
+/* CheckProcess Page Styles */
+.check-process-container {
+  padding: 20px;
+}
+
+.check-process-container .MuiTableContainer-root {
+  margin-top: 20px;
+  border-radius: 12px;
+  box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+.check-process-container .MuiTableCell-root {
+  padding: 15px;
+}
+
+.check-process-container .MuiTableRow-root:hover {
+  background-color: #f5f5f5;
+}
+
+/* Status, Parecer, and Tipo Indicators */
+.status-indicator {
+  padding: 2px 8px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.status-concluido {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.status-em-analise {
+  background-color: #f0ad4e;
+  color: #fff;
+}
+
+.status-aguardando {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+.parecer-indicator {
+  padding: 2px 8px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.parecer-aprovado {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.parecer-reprovado {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.parecer-aguardando {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+.tipo-indicator {
+  padding: 2px 8px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.tipo-vistoria {
+  background-color: #f44336;
+  color: #fff;
+}
+
+.tipo-analise {
+  background-color: #00bcd4;
+  color: #fff;
+}
+
+/* Navbar Styles */
+.MuiAppBar-root {
+  z-index: 1000; /* Ajuste para garantir que o Navbar esteja atrás das mensagens de confirmação */
+}
+
+/* Icons */
 .icon-blue {
   color: #007bff;
 }
 
 .icon-red {
-  color: #f44336;
+  color: #dc3545;
 }
 
 .icon-cyan {
   color: #00bcd4;
 }
 
-.card-shadow {
-  box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.25);
-  border-radius: 12px;
-  padding: 16px;
+/* Modal Styles */
+.modal-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
   background-color: #fff;
-}
-
-.table-head {
-  background-color: #f5f5f5;
-  font-weight: bold;
-}
-
-.table-head-cell {
-  font-weight: bold;
-}
-
-.card-content {
-  margin-bottom: 16px;
-}
-
-.status-indicator, .parecer-indicator {
-  display: inline-block;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-weight: bold;
-  font-size: 0.8rem;
-  color: #fff;
-}
-
-.status-concluido {
-  background-color: #007bff;
-}
-
-.status-em-analise {
-  background-color: #f0ad4e;
-}
-
-.status-aguardando {
-  background-color: #6c757d;
-}
-
-.parecer-aprovado {
-  background-color: #28a745;
-}
-
-.parecer-reprovado {
-  background-color: #dc3545;
-}
-
-.parecer-aguardando {
-  background-color: #6c757d;
-}
-
-.card-row {
+  box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.25);
+  padding: 16px;
+  border-radius: 12px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-}
-
-.card-column {
-  flex: 1;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 8px;
-}
-
-.tipo-indicator {
-  padding: 4px 8px;
-  border-radius: 4px;
-  color: white;
-  font-weight: bold;
-  text-align: center;
-}
-
-.tipo-vistoria {
-  background-color: #f44336; /* Cor para VISTORIA */
-}
-
-.tipo-analise {
-  background-color: #00bcd4; /* Cor para ANALISE */
+  flex-direction: column;
+  gap: 16px;
+  z-index: 1500; /* Ajuste para garantir que o modal esteja na frente da barra de navegação */
 }

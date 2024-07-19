@@ -137,7 +137,7 @@ function AllUsuarios() {
 
   return (
     <Container maxWidth="lg">
-      <ToastContainer />
+      <ToastContainer className="toast-container" />
       <Box sx={{ mt: 5 }}>
         <Typography variant="h4" gutterBottom>
           Todos os Usuários

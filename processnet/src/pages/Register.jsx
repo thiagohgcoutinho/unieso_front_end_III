@@ -5,13 +5,9 @@ import axios from '../axiosConfig';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import '../App.css'; // Certifique-se de que o App.css contém os estilos globais e específicos
 
 const CARGOS = ['VISTORIADOR', 'ANALISTA', 'GESTOR'];
-
-const instance = axios.create({
-    baseURL: 'http://localhost:8080', // Endereço do backend
-    withCredentials: true, // Inclua as credenciais nas requisições
-});
 
 function Register() {
   const [perfil, setPerfil] = useState('usuario');
@@ -136,9 +132,9 @@ function Register() {
   };
 
   return (
-    <Container maxWidth="sm">
-      <ToastContainer />
-      <Box sx={{ mt: 5 }}>
+    <Container maxWidth="sm" className="register-container">
+      <ToastContainer className="toast-container"/>
+      <Box className="register-box">
         <Typography variant="h4" gutterBottom>
           Cadastro
         </Typography>
@@ -176,49 +172,67 @@ function Register() {
           )}
           <TextField
             label="CPF"
-            variant="outlined"
+            variant="filled"
             fullWidth
             margin="normal"
             value={cpf}
             onChange={handleCpfChange}
             onBlur={handleCpfBlur}
+            InputProps={{
+              disableUnderline: true,
+              className: 'custom-input'
+            }}
           />
           {cpfMessage && (
             <FormHelperText style={{ color: cpfMessageColor }}>{cpfMessage}</FormHelperText>
           )}
           <TextField
             label="Nome"
-            variant="outlined"
+            variant="filled"
             fullWidth
             margin="normal"
             value={nome}
             onChange={(e) => setNome(e.target.value)}
+            InputProps={{
+              disableUnderline: true,
+              className: 'custom-input'
+            }}
           />
           <TextField
             label="Email"
-            variant="outlined"
+            variant="filled"
             fullWidth
             margin="normal"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            InputProps={{
+              disableUnderline: true,
+              className: 'custom-input'
+            }}
           />
           <TextField
             label="Telefone"
-            variant="outlined"
+            variant="filled"
             fullWidth
             margin="normal"
             value={telefone}
             onChange={handleTelefoneChange}
+            InputProps={{
+              disableUnderline: true,
+              className: 'custom-input'
+            }}
           />
           <TextField
             label="Senha"
             type={showPassword ? 'text' : 'password'}
-            variant="outlined"
+            variant="filled"
             fullWidth
             margin="normal"
             value={senha}
             onChange={(e) => setSenha(e.target.value)}
             InputProps={{
+              disableUnderline: true,
+              className: 'custom-input',
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton onClick={handleClickShowPassword} edge="end">
@@ -231,12 +245,14 @@ function Register() {
           <TextField
             label="Confirme a Senha"
             type={showConfirmPassword ? 'text' : 'password'}
-            variant="outlined"
+            variant="filled"
             fullWidth
             margin="normal"
             value={confirmSenha}
             onChange={(e) => setConfirmSenha(e.target.value)}
             InputProps={{
+              disableUnderline: true,
+              className: 'custom-input',
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton onClick={handleClickShowConfirmPassword} edge="end">
@@ -246,7 +262,7 @@ function Register() {
               )
             }}
           />
-          <Button type="submit" variant="contained" color="primary" fullWidth>
+          <Button type="submit" variant="contained" fullWidth className="custom-button">
             Cadastrar
           </Button>
         </form>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Tooltip, Modal, TextField, Button } from '@mui/material';
+import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Tooltip, Modal, TextField, Button, TablePagination } from '@mui/material';
 import axios from '../axiosConfig';
 import { useAuth } from '../AuthContext';
 import SearchIcon from '@mui/icons-material/Search';
@@ -46,6 +46,8 @@ const ViewProcess = () => {
   const [selectedProcess, setSelectedProcess] = useState(null);
   const [isEditMode, setIsEditMode] = useState(false);
   const [isViewMode, setIsViewMode] = useState(false);
+  const [vistoriaPage, setVistoriaPage] = useState(0);
+  const [analisePage, setAnalisePage] = useState(0);
   const { user } = useAuth();
 
   useEffect(() => {
@@ -99,6 +101,14 @@ const ViewProcess = () => {
     }
   };
 
+  const handleVistoriaPageChange = (event, newPage) => {
+    setVistoriaPage(newPage);
+  };
+
+  const handleAnalisePageChange = (event, newPage) => {
+    setAnalisePage(newPage);
+  };
+
   const commonTableHead = (
     <TableHead>
       <TableRow>
@@ -112,40 +122,43 @@ const ViewProcess = () => {
     </TableHead>
   );
 
-  const renderProcessos = (processos) => (
+  const renderProcessos = (processos, page, rowsPerPage) => (
     <TableBody>
-      {processos.sort((a, b) => {
-        const numeroProtocoloA = parseInt(a.numeroProtocolo.replace('/', ''), 10);
-        const numeroProtocoloB = parseInt(b.numeroProtocolo.replace('/', ''), 10);
-        return numeroProtocoloB - numeroProtocoloA;
-      }).map((processo) => (
-        <TableRow key={processo.id}>
-          <TableCell>{formatNumeroProtocolo(processo.numeroProtocolo)}</TableCell>
-          <TableCell>{formatCNPJ(processo.cnpj)}</TableCell>
-          <TableCell>{processo.endereco}</TableCell>
-          <TableCell>
-            <Box sx={getStatusStyle(processo.status)}>{processo.status}</Box>
-          </TableCell>
-          <TableCell>
-            <Box sx={getParecerStyle(processo.parecer)}>{processo.parecer}</Box>
-          </TableCell>
-          <TableCell>
-            <Box display="flex" justifyContent="center">
-              <Tooltip title="Visualizar">
-                <IconButton color="primary" onClick={() => handleViewClick(processo)}>
-                  <SearchIcon />
-                </IconButton>
-              </Tooltip>
-            </Box>
-          </TableCell>
-        </TableRow>
-      ))}
+      {processos
+        .sort((a, b) => {
+          const numeroProtocoloA = parseInt(a.numeroProtocolo.replace('/', ''), 10);
+          const numeroProtocoloB = parseInt(b.numeroProtocolo.replace('/', ''), 10);
+          return numeroProtocoloB - numeroProtocoloA;
+        })
+        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+        .map((processo) => (
+          <TableRow key={processo.id}>
+            <TableCell>{formatNumeroProtocolo(processo.numeroProtocolo)}</TableCell>
+            <TableCell>{formatCNPJ(processo.cnpj)}</TableCell>
+            <TableCell>{processo.endereco}</TableCell>
+            <TableCell>
+              <Box sx={getStatusStyle(processo.status)}>{processo.status}</Box>
+            </TableCell>
+            <TableCell>
+              <Box sx={getParecerStyle(processo.parecer)}>{processo.parecer}</Box>
+            </TableCell>
+            <TableCell>
+              <Box display="flex" justifyContent="center">
+                <Tooltip title="Visualizar">
+                  <IconButton color="primary" onClick={() => handleViewClick(processo)}>
+                    <SearchIcon />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+            </TableCell>
+          </TableRow>
+        ))}
     </TableBody>
   );
 
   return (
     <Box sx={{ p: 3 }}>
-      <ToastContainer />
+      <ToastContainer className="toast-container" />
       <Typography variant="h4" component="h1" gutterBottom>
         Processos
       </Typography>
@@ -156,8 +169,16 @@ const ViewProcess = () => {
         <TableContainer component={Paper}>
           <Table>
             {commonTableHead}
-            {renderProcessos(vistoriaProcessos)}
+            {renderProcessos(vistoriaProcessos, vistoriaPage, 3)}
           </Table>
+          <TablePagination
+            rowsPerPageOptions={[3]}
+            component="div"
+            count={vistoriaProcessos.length}
+            rowsPerPage={3}
+            page={vistoriaPage}
+            onPageChange={handleVistoriaPageChange}
+          />
         </TableContainer>
       </Box>
       <Box sx={{ mt: 4 }}>
@@ -167,43 +188,63 @@ const ViewProcess = () => {
         <TableContainer component={Paper}>
           <Table>
             {commonTableHead}
-            {renderProcessos(analiseProcessos)}
+            {renderProcessos(analiseProcessos, analisePage, 3)}
           </Table>
+          <TablePagination
+            rowsPerPageOptions={[3]}
+            component="div"
+            count={analiseProcessos.length}
+            rowsPerPage={3}
+            page={analisePage}
+            onPageChange={handleAnalisePageChange}
+          />
         </TableContainer>
       </Box>
 
       <Modal open={isEditMode || isViewMode} onClose={handleClose}>
-        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
+        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 500, bgcolor: 'background.paper', boxShadow: 24, p: 4, borderRadius: 2 }}>
           <Typography variant="h6" component="h2" gutterBottom>
             {isEditMode ? 'Editar Processo' : 'Visualizar Processo'}
           </Typography>
           {selectedProcess && (
             <Box>
               <Typography variant="body1"><strong>Protocolo:</strong> {formatNumeroProtocolo(selectedProcess.numeroProtocolo)}</Typography>
-              <Typography variant="body1"><strong>CNPJ:</strong> {isEditMode ? (
-                <TextField
-                  value={formatCNPJ(selectedProcess.cnpj)}
-                  fullWidth
-                  margin="normal"
-                  onChange={(e) => setSelectedProcess({ ...selectedProcess, cnpj: e.target.value.replace(/\D/g, '') })}
-                />
-              ) : (
-                formatCNPJ(selectedProcess.cnpj)
-              )}</Typography>
-              <Typography variant="body1"><strong>Endereço:</strong> {isEditMode ? (
-                <TextField
-                  value={selectedProcess.endereco}
-                  fullWidth
-                  margin="normal"
-                  onChange={(e) => setSelectedProcess({ ...selectedProcess, endereco: e.target.value })}
-                />
-              ) : (
-                selectedProcess.endereco
-              )}</Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+                <Typography variant="body1" sx={{ mr: 2 }}><strong>CNPJ:</strong></Typography>
+                {isEditMode ? (
+                  <TextField
+                    value={formatCNPJ(selectedProcess.cnpj)}
+                    fullWidth
+                    margin="normal"
+                    onChange={(e) => setSelectedProcess({ ...selectedProcess, cnpj: e.target.value.replace(/\D/g, '') })}
+                    variant="filled"
+                    InputProps={{ disableUnderline: true, className: 'custom-input' }}
+                    sx={{ flex: 1 }}
+                  />
+                ) : (
+                  <Typography variant="body1">{formatCNPJ(selectedProcess.cnpj)}</Typography>
+                )}
+              </Box>
+              <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+                <Typography variant="body1" sx={{ mr: 2 }}><strong>Endereço:</strong></Typography>
+                {isEditMode ? (
+                  <TextField
+                    value={selectedProcess.endereco}
+                    fullWidth
+                    margin="normal"
+                    onChange={(e) => setSelectedProcess({ ...selectedProcess, endereco: e.target.value })}
+                    variant="filled"
+                    InputProps={{ disableUnderline: true, className: 'custom-input' }}
+                    sx={{ flex: 1 }}
+                  />
+                ) : (
+                  <Typography variant="body1">{selectedProcess.endereco}</Typography>
+                )}
+              </Box>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1, alignItems: 'flex-start' }}>
                   <Typography variant="subtitle1" sx={{ mb: 1 }}>
-                  <strong>Status:</strong>
+                    <strong>Status:</strong>
                   </Typography>
                   <Box sx={getStatusStyle(selectedProcess.status)}>{selectedProcess.status}</Box>
                 </Box>

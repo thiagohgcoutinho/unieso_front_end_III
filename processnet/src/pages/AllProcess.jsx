@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Tooltip, Modal, Grid, MenuItem, Select, InputLabel, FormControl, TextField } from '@mui/material';
+import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Tooltip, Modal, Grid, MenuItem, Select, InputLabel, FormControl, TextField, TablePagination } from '@mui/material';
 import { useAuth } from '../AuthContext';
 import axios from '../axiosConfig';
 import SearchIcon from '@mui/icons-material/Search';
@@ -26,6 +26,8 @@ const AllProcess = () => {
     solicitante: '',
     funcionario: ''
   });
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   useEffect(() => {
     fetchProcessos();
@@ -71,7 +73,7 @@ const AllProcess = () => {
         return {};
     }
   };
-  
+
   const getParecerStyle = (parecer) => {
     switch (parecer) {
       case 'APROVADO':
@@ -90,6 +92,15 @@ const AllProcess = () => {
     setIsViewModalOpen(true);
   };
 
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   const filteredProcessos = processos.filter((processo) => {
     return (
       (filters.tipo === '' || processo.tipoProcesso === filters.tipo) &&
@@ -101,7 +112,7 @@ const AllProcess = () => {
   }).sort((a, b) => b.id - a.id);
 
   const solicitantes = [...new Set(processos.map((processo) => processo.responsavel?.nome))];
-  const funcionarios   = [...new Set(processos.map((processo) => processo.funcionario?.nome))];
+  const funcionarios = [...new Set(processos.map((processo) => processo.funcionario?.nome))];
 
   return (
     <Box sx={{ p: 3 }}>
@@ -216,7 +227,7 @@ const AllProcess = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredProcessos.map((processo) => (
+            {filteredProcessos.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((processo) => (
               <TableRow key={processo.id}>
                 <TableCell>
                   <Box sx={getTipoStyle(processo.tipoProcesso)}>
@@ -252,6 +263,15 @@ const AllProcess = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        count={filteredProcessos.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
       <Modal open={isViewModalOpen} onClose={() => setIsViewModalOpen(false)}>
         <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
           <Typography variant="h6" component="h2" gutterBottom>
@@ -277,4 +297,3 @@ const AllProcess = () => {
 };
 
 export default AllProcess;
-

@@ -134,8 +134,8 @@ const CheckProcess = () => {
   );
 
   return (
-    <Box sx={{ p: 3 }}>
-      <ToastContainer />
+    <Box className="check-process-container">
+      <ToastContainer className="toast-container" />
       <Typography variant="h4" component="h1" gutterBottom>
         Verificar Processos
       </Typography>
@@ -147,7 +147,7 @@ const CheckProcess = () => {
       </TableContainer>
 
       <Modal open={isModalOpen} onClose={handleClose}>
-        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
+        <Box className="modal-box">
           <Typography variant="h6" component="h2" gutterBottom>
             Emitir Parecer
           </Typography>

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Box, Typography, TextField, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Button } from '@mui/material';
+import { Container, Box, Typography, TextField, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from '../axiosConfig';
 import { useAuth } from '../AuthContext';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import '../App.css'; // Certifique-se de que o App.css contém os estilos globais e específicos
 
 const formatCNPJ = (value) => {
   return value
@@ -15,15 +16,26 @@ const formatCNPJ = (value) => {
     .replace(/(\d{3})(\d{4})(\d)/, '$1/$2-$3'); // Adiciona a barra e o traço
 };
 
+const isValidCNPJ = (cnpj) => {
+  const digits = cnpj.replace(/\D/g, '');
+  return digits.length === 14;
+};
+
 const NewProcess = () => {
   const [tipoProcesso, setTipoProcesso] = useState('');
   const [cnpj, setCnpj] = useState('');
   const [endereco, setEndereco] = useState('');
+  const [cnpjError, setCnpjError] = useState('');
   const { user } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!isValidCNPJ(cnpj)) {
+      setCnpjError('CNPJ inválido. Deve conter 14 dígitos.');
+      return;
+    }
 
     const novoProcesso = {
       tipoProcesso: tipoProcesso,
@@ -51,44 +63,59 @@ const NewProcess = () => {
   };
 
   return (
-    <Box sx={{ p: 3 }}>
-      <ToastContainer />
-      <Typography variant="h4" component="h1" gutterBottom>
-        Solicitar novo processo
-      </Typography>
-      <form onSubmit={handleSubmit}>
-        <FormControl component="fieldset" sx={{ mb: 3 }}>
-          <FormLabel component="legend">Tipo de Processo</FormLabel>
-          <RadioGroup
-            name="tipoProcesso"
-            value={tipoProcesso}
-            onChange={(e) => setTipoProcesso(e.target.value)}
-          >
-            <FormControlLabel value="VISTORIA" control={<Radio />} label="Vistoria Técnica" />
-            <FormControlLabel value="ANALISE" control={<Radio />} label="Análise de Projeto" />
-          </RadioGroup>
-        </FormControl>
-        <TextField
-          label="CNPJ"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          value={cnpj}
-          onChange={(e) => setCnpj(formatCNPJ(e.target.value))}
-        />
-        <TextField
-          label="Endereço"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          value={endereco}
-          onChange={(e) => setEndereco(e.target.value)}
-        />
-        <Button type="submit" variant="contained" color="primary" fullWidth>
-          Enviar
-        </Button>
-      </form>
-    </Box>
+    <Container className="new-process-container">
+      <ToastContainer className="toast-container" />
+      <Box className="new-process-content">
+        <Typography variant="h4" component="h1" gutterBottom>
+          Solicitar novo processo
+        </Typography>
+        <form onSubmit={handleSubmit}>
+          <FormControl component="fieldset" sx={{ mb: 3 }}>
+            <FormLabel component="legend">Tipo de Processo</FormLabel>
+            <RadioGroup
+              name="tipoProcesso"
+              value={tipoProcesso}
+              onChange={(e) => setTipoProcesso(e.target.value)}
+            >
+              <FormControlLabel value="VISTORIA" control={<Radio />} label="Vistoria Técnica" />
+              <FormControlLabel value="ANALISE" control={<Radio />} label="Análise de Projeto" />
+            </RadioGroup>
+          </FormControl>
+          <TextField
+            label="CNPJ"
+            variant="filled"
+            fullWidth
+            margin="normal"
+            value={cnpj}
+            onChange={(e) => {
+              setCnpj(formatCNPJ(e.target.value));
+              setCnpjError(''); // Clear error message when user starts typing
+            }}
+            error={!!cnpjError}
+            helperText={cnpjError}
+            InputProps={{
+              disableUnderline: true,
+              className: 'custom-input'
+            }}
+          />
+          <TextField
+            label="Endereço"
+            variant="filled"
+            fullWidth
+            margin="normal"
+            value={endereco}
+            onChange={(e) => setEndereco(e.target.value)}
+            InputProps={{
+              disableUnderline: true,
+              className: 'custom-input'
+            }}
+          />
+          <Button type="submit" variant="contained" fullWidth className="custom-button">
+            Enviar
+          </Button>
+        </form>
+      </Box>
+    </Container>
   );
 };
 
